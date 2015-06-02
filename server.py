@@ -32,6 +32,9 @@ class MyHandler(BaseHTTPRequestHandler):
 		elif 'epg.xml' in self.path:
 			self.send_header('Content-type',	'txt/xml')
 			
+		elif '/logos' in self.path:
+			self.send_header('Content-type',	'image/png')
+			
 		else:
 			self.send_header('Content-type',	'txt/html')
 
@@ -133,6 +136,14 @@ class MyHandler(BaseHTTPRequestHandler):
 				self.send_header('Content-Length', len(xml))
 				self.end_headers()
 				self.wfile.write(xml)
+			
+            elif self.path.startswith('/logos'):
+				
+				print self.path[7:];
+				
+				self.send_response(301)
+				self.send_header('Location',	self.path[7:])
+				self.end_headers()
 				                 
             elif 'stop' in self.path:
 				msg = 'Stopping ...';

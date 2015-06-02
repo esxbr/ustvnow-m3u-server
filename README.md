@@ -13,6 +13,9 @@ http://SERVER_IP:8787/channels.m3u?q=QUALITY&u=EMAIL&p=PASSWORD
 EPG Server:
 http://SERVER_IP:8787/epg.xml?u=EMAIL&p=PASSWORD
 
+LOGO:
+http://SERVER_IP:8787/logos
+
 Quality:
 1 = Low
 2 = Medium
