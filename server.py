@@ -64,10 +64,6 @@ class MyHandler(BaseHTTPRequestHandler):
             if 'channels.m3u' in self.path:
 
             	host = self.headers.get('Host');
-            	quality = '1';
-				
-            	if 'q' in args != None and int(args['q'][0])>=1 and int(args['q'][0]) <=3:
-					quality = args['q'][0];
             	
             	EXTM3U = "#EXTM3U\n";
             	
@@ -78,16 +74,24 @@ class MyHandler(BaseHTTPRequestHandler):
 					for i in data:
 						name 		= i["name"];
 						icon 		= i["icon"];
-				
-						parameters = urllib.urlencode( { 
-							'c' 		: name, 
-							'i'			: icon, 
-							'q' 		: quality, 
-							'u'			: username, 
-							'p'			: password } );
 						
-						EXTM3U += '#EXTINF:-1, tvg-name="' + name + '" tvg-logo="' + icon + '" group-title="Live", ' + name + '\n';
-						EXTM3U += 'http://' + host + '/play'  + base64.b64encode(parameters) +'\n\n';
+						for quality in range(1,4):
+							parameters = urllib.urlencode( { 
+								'c' 		: name, 
+								'i'			: icon, 
+								'q' 		: str(quality), 
+								'u'			: username, 
+								'p'			: password } );
+								
+							if quality==1:
+								quality_name = 'Low';
+							elif quality==2:
+								quality_name = 'Medium';
+							elif quality==3:
+								quality_name = 'High';
+						
+							EXTM3U += '#EXTINF:-1, tvg-name="' + name + '" tvg-logo="' + icon + '" group-title="' + quality_name + '", ' + name + '\n';
+							EXTM3U += 'http://' + host + '/play'  + base64.b64encode(parameters) +'\n\n';
 						
 						#print 'http://' + host + '/play'  + base64.b64encode(parameters);
 					
@@ -113,9 +117,13 @@ class MyHandler(BaseHTTPRequestHandler):
 				url = ustv.get_link(channel, int(quality));
 				
 				print url;
-				
-				self.send_response(301)
-				self.send_header('Location',	url)
+
+				if url != None:
+					self.send_response(301)
+					self.send_header('Location',	url)
+				else:
+					self.send_error(500,'Internal Server Error')
+					
 				self.end_headers()
 				
 				                

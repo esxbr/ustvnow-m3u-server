@@ -189,6 +189,9 @@ class Ustvnow:
 								'<\/td>.+?class="nowplaying_itemdesc".+?' + 
 								'<\/a>.+?<\/td>.+?href="(.+?)"', html, re.DOTALL);
 		
+		if channel == None:
+			return None;
+		
 		url = channel.group(1);
 		url = '%s%s%d' % (stream_type, url[4:-1], quality)
 		
