@@ -73,11 +73,12 @@ class MyHandler(BaseHTTPRequestHandler):
 
 					for i in data:
 						name 		= i["name"];
+						sname 		= i["sname"];
 						icon 		= i["icon"];
 						
 						for quality in range(1,4):
 							parameters = urllib.urlencode( { 
-								'c' 		: name, 
+								'c' 		: sname, 
 								'i'			: icon, 
 								'q' 		: str(quality), 
 								'u'			: username, 
@@ -115,7 +116,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
 
 				url = ustv.get_link(channel, int(quality));
-				
+
 				print url;
 
 				if url != None:

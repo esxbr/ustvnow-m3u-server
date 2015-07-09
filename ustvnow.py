@@ -178,13 +178,13 @@ class Ustvnow:
 		return html
 		
 	#TODO this func
-	def get_link(self, fname, quality=1, stream_type='rtmp'):
+	def get_link(self, sname, quality=1, stream_type='rtmp'):
 		self._login()
 		
 		self.__BASE_URL = 'http://lv2.ustvnow.com';
 		html = self._get_html('iphone_ajax', {'tab': 'iphone_playingnow', 
 											  'token': self.token})
-		channel = re.search('class="panel".+?title="' + fname + '".+?src="' + 
+		channel = re.search('class="panel".+?images\/' + sname + '.+?src="' + 
 								'.+?".+?class="nowplaying_item">.+?' + 
 								'<\/td>.+?class="nowplaying_itemdesc".+?' + 
 								'<\/a>.+?<\/td>.+?href="(.+?)"', html, re.DOTALL);
