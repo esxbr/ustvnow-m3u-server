@@ -184,16 +184,13 @@ class Ustvnow:
 		self.__BASE_URL = 'http://lv2.ustvnow.com';
 		html = self._get_html('iphone_ajax', {'tab': 'iphone_playingnow', 
 											  'token': self.token})
-		channel = re.search('class="panel".+?images\/' + sname + '.+?src="' + 
-								'.+?".+?class="nowplaying_item">.+?' + 
-								'<\/td>.+?class="nowplaying_itemdesc".+?' + 
-								'<\/a>.+?<\/td>.+?href="(.+?)"', html, re.DOTALL);
+		channel = re.search('class="panel".+?images\/' + sname + '.+?class="nowplaying_itemdesc".+?<.+?href="rtmp(.+?)">View<\/a>', html, re.DOTALL);
 		
 		if channel == None:
 			return None;
 		
 		url = channel.group(1);
-		url = '%s%s%d' % (stream_type, url[4:-1], quality)
+		url = '%s%s%d' % (stream_type, url[:-1], quality)
 		
 		return url    
 
