@@ -25,9 +25,9 @@ class MyHandler(BaseHTTPRequestHandler):
 		if 'channels.m3u' in self.path:
 			self.send_header('Content-type',	'application/x-mpegURL')
 			
-		elif self.path.startswith('/play'):
-			self.send_header('Content-type',	'application/x-mpegURL')
-			self.send_header('Accept-Ranges',	'none') # fix kodi bug
+		#elif self.path.startswith('/play'):
+		#	self.send_header('Content-type',	'application/x-mpegURL')
+		#	self.send_header('Accept-Ranges',	'none') # fix kodi bug
 			
 		elif 'epg.xml' in self.path:
 			self.send_header('Content-type',	'txt/xml')
@@ -118,9 +118,10 @@ class MyHandler(BaseHTTPRequestHandler):
 				url = ustv.get_link(channel, int(quality));
 
 				print url;
-
+				
 				if url != None:
 					self.send_response(301)
+					self.send_header('Content-type',	'application/x-mpegurl')
 					self.send_header('Location',	url)
 				else:
 					self.send_error(500,'Internal Server Error')
