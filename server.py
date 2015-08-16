@@ -25,9 +25,9 @@ class MyHandler(BaseHTTPRequestHandler):
 		if 'channels.m3u' in self.path:
 			self.send_header('Content-type',	'application/x-mpegURL')
 			
-		#elif self.path.startswith('/play'):
-		#	self.send_header('Content-type',	'application/x-mpegURL')
-		#	self.send_header('Accept-Ranges',	'none') # fix kodi bug
+		elif self.path.startswith('/play'):
+			self.send_header('Content-type',	'application/x-mpegURL')
+			self.send_header('Accept-Ranges',	'none') # fix kodi bug
 			
 		elif 'epg.xml' in self.path:
 			self.send_header('Content-type',	'txt/xml')
@@ -122,7 +122,7 @@ class MyHandler(BaseHTTPRequestHandler):
 				if url != None:
 					self.send_response(301)
 					self.send_header('Content-type',	'application/x-mpegurl')
-					self.send_header('Location',	url)
+					self.send_header('Location', url.encode('ascii', 'ignore'))
 				else:
 					self.send_error(500,'Internal Server Error')
 					
